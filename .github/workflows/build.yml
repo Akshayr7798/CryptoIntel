@@ -1,34 +1,19 @@
 name: Build
-
 on:
   push:
     branches:
       - dev
   pull_request:
     types: [opened, synchronize, reopened]
-
 jobs:
-  sonarcloud:
+  sonarqube:
+    name: SonarQube
     runs-on: windows-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set up SonarCloud
-        uses: SonarSource/sonarqube-scan-action@v4
+      - uses: actions/checkout@v4
         with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          sonar.projectKey: 'Akshayr7798_CryptoIntel'  # Replace with your SonarCloud project key
-          sonar.organization: 'akshayr7798'  # Replace with your SonarCloud organization key
-
-#jobs:
-  #sonarqube:
-    #name: SonarQube
-    #runs-on: windows-latest
-   # steps:
-      #- uses: actions/checkout@v4
-       # with:
-       #   fetch-depth: 0 # Shallow clones should be disabled for better analysis relevance
-     # - name: SonarQube Scan
-        #uses: SonarSource/sonarqube-scan-action@v4
-        #env:
-          #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
